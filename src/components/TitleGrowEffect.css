@@ -1,0 +1,25 @@
+.main__title{
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main__title > h2 {
+    font-weight: 900;
+    font-style: italic;
+    text-shadow: rgb(0, 0, 0) 1px 0 10px;
+    animation: pulse 6s ease-in-out infinite;
+    text-align: center;
+}
+
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+

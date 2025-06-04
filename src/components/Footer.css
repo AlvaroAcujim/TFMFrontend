@@ -1,0 +1,23 @@
+footer{
+    margin-top: 20px;
+    min-height: 30dvh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    background-color: black;
+    text-align: center;
+}
+footer > div > h2{
+    font-weight: 900;
+}
+footer > div > h4{
+    color: #d2a119;
+    font-size: 0.89em;
+}
+@media screen and (max-width: 900px){
+    footer{
+       flex-direction: column; 
+       min-height: 30dvh;
+    }
+}

@@ -1,0 +1,20 @@
+.cart {
+  margin: 10px;
+  width: 300px;
+  min-height: 200px;
+  background-color: #000000;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  color: rgb(255, 255, 255);
+  box-sizing: content-box;
+}
+.cart > h2{
+   font-weight: 900;
+}
+
+.cart:hover {
+  transform: scale(1.03);
+}
