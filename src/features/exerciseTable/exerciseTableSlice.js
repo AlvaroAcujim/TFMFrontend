@@ -100,4 +100,5 @@ const exerciseTableSlice = createSlice({
   },
 });
 
+export const { setEditingTable, clearEditingTable } = exerciseTableSlice.actions;
 export default exerciseTableSlice.reducer;
