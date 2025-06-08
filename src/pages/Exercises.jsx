@@ -11,7 +11,7 @@ import  {fetchUserExerciseTable}  from '../features/exerciseTable/exerciseTableS
 import {deleteTable} from '../features/exerciseTable/exerciseTableSlice.js';
 import { useState } from 'react';
 import BasicAlerts from '../components/BasicAlerts.jsx';
-import { setEditingTable } from '../features/exerciseTable/exerciseTableSlice';
+import { setEditingTable } from '../features/exerciseTable/exerciseTableSlice.js';
 const Exercises = () => {
     const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user) || '';
