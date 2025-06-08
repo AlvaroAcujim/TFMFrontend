@@ -7,13 +7,13 @@ const initialState = {
   error: null,
   editingTable: null
 };
-
+const API_URL = process.env.REACT_APP_API_URL;
 export const fetchUserExerciseTable = createAsyncThunk(
   'exerciseTable/fetchUserExerciseTable',
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token")
-      const res = await axios.get('http://localhost:3000/api/exerciseTable/user', {
+      const res = await axios.get(`${API_URL}exerciseTable/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;
@@ -28,7 +28,7 @@ export const deleteTable = createAsyncThunk(
   async (tableId, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token")
-      await axios.delete(`http://localhost:3000/api/exerciseTable/${tableId}`, {
+      await axios.delete(`${API_URL}/exerciseTable/${tableId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return tableId;
@@ -43,7 +43,7 @@ export const createExerciseTable = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        'http://localhost:3000/api/exerciseTable',
+        `${API_URL}/exerciseTable`,
         { name, exercisesByDay },
         {
           headers: { Authorization: `Bearer ${token}` },
