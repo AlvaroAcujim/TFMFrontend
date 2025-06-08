@@ -3,43 +3,25 @@ import axios from 'axios';
 
 const token = localStorage.getItem('token');
 
-const initialState = {
-  user: null,
-  token: token || null,
-  exerciseTable: null,
-  status: 'idle',
-  error: null,
-};
-
-export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, {rejectWithValue}) => {
-  try{
-    const loginRes = await axios.post('http://localhost:3000/api/users/login', credentials);
-    const token = loginRes.data;
-    localStorage.setItem('token',token);
-    const {identifier} = credentials;
-    const userRes = await axios.get(`http://localhost:3000/api/users/login/${identifier}`,credentials.identifier, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const userTable = await axios.get('http://localhost:3000/api/exerciseTable/user', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    console.log(userTable.data)
-    
-    return {token, user: userRes.data, exerciseTable: userTable.data};
-  }catch(err){
-    const message =
-        err.response?.data?.message || 'Error en el login. Revisa tus credenciales.';
-      return rejectWithValue(message);
+export const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const { data: token } = await axios.post('http://localhost:3000/api/users/login', credentials);
+      localStorage.setItem('token', token);
+      const userRes = await axios.get(`http://localhost:3000/api/users/login/${credentials.identifier}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { token, user: userRes.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Datos incorrectos');
+    }
   }
-});
+);
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: { user: null, token: token || null, status: 'idle', error: null },
   reducers: {
     logout: (state) => {
       state.user = null;
@@ -49,18 +31,15 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
-        state.status = 'loading';
-      })
+      .addCase(loginUser.pending, (state) => { state.status = 'loading'; })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.user = action.payload.user;
         state.token = action.payload.token;
-        state.exerciseTable = action.payload.exerciseTable;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       });
   },
 });

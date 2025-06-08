@@ -3,8 +3,12 @@
     flex-direction: column;
     font-size: 1.2rem;
 }
+.MuiPaper-root {
+    --Paper-shadow:none;
+     box-shadow: none !important;
+}
 .title{
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #f5c518;
 }
 .exerciseImage{
@@ -16,8 +20,9 @@
     border-bottom: 5px solid #f5c518;
     animation: growBorder 4s infinite ease-in;
 }
+
 h1{
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #f5c518;
 }
 @keyframes growBorder{
@@ -31,8 +36,4 @@ h1{
         width: 100%;
     }
 }
-@media screen and (min-width: 800px) {
-    .exerciseImage{
-    width: 500px;
-}
-}
+

@@ -11,6 +11,7 @@ import './RegisterDialog.css'
 import Stack from '@mui/material/Stack';
 import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 import CachedIcon from '@mui/icons-material/Cached';
+import { Link } from 'react-router-dom';
 export default function DialogExercise({open, handleClose, requiredGym}) {
 
   return (
@@ -36,9 +37,10 @@ export default function DialogExercise({open, handleClose, requiredGym}) {
       md: '40dvh',
     }, 
     
-    //onClick={},
+    
     width: {xs: '80%', md: '50%'},
     fontSize: '1rem',
+    
     fontWeight: 900,
     boxSizing: 'content-box',
     backgroundColor: '#202020',
@@ -47,9 +49,13 @@ export default function DialogExercise({open, handleClose, requiredGym}) {
   '&:hover': {
     borderColor: '#f5c518',
   }
-      }}><PanToolAltIcon sx={{ fontSize: 80, color: '#d2a119' }}/> Selección personalizada </Button>
-      <Button variant="contained" size='large'
+      }}
+       component={Link}
+      to="/createExerciseTable"
+       state={{ requiredGym: requiredGym }}><PanToolAltIcon sx={{ fontSize: 80, color: '#d2a119' }}/> Selección personalizada </Button>
+      <Button variant="contained" size='large' disabled
       sx={{
+        
         height: {
       xs: '50%',
       md: '40dvh',

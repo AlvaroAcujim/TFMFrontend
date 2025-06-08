@@ -7,9 +7,10 @@ import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
 import TitleGrowEffect from '../components/TitleGrowEffect';
 import PlanButton from '../components/PlanButton';
-
+import { useSelector  } from 'react-redux';
 
 const Home = () => {
+   const user = useSelector((state) => state.auth.user) || '';
   return (
     <section>
     <TitleGrowEffect title={"Excuses don't burn calories"} height={'70vh'} marginBotMD={'300px'} marginBotxs={'180px'} marginBotSM={'270px'} marginBotLG={'500px'} marginBotXL={'-80px'} fontSize={'3rem'}/>
@@ -36,7 +37,7 @@ const Home = () => {
         }
       ]}/>
       <TitleGrowEffect title={"SELECCIONE SU PLAN"} height={'20vh'}  marginBotMD={'0px'} marginBotxs={'0px'} marginBotSM={'0px'} marginBotLG={'0px'} fontSize={'2rem'}/>
-      <PlanButton/>
+      {user ? <PlanButton/> : <h3 style={{color: '#ff0000', fontSize: '2rem', backgroundColor: '#000000', textAlign: 'center'}}>Para utilizar las funcionalidad de la página es necesario crearse una cuenta</h3>}
       
     </section>
   )
