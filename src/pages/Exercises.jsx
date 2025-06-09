@@ -81,7 +81,7 @@ const Exercises = () => {
       (element.exercises.length > 0) && (
         <ExerciseTable 
           key={element._id} 
-          tableName={el.name} 
+          tableId={el._id} 
           day={element.day} 
           exercises={element.exercises} 
         />

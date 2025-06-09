@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -8,12 +8,24 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-export default function ExerciseTable({ day,  exercises}) {
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { fetchTableImages } from '../features/exerciseTable/exerciseTableSlice';
+import { useSelector, useDispatch } from 'react-redux';
+export default function ExerciseTable({ day,  exercises , tableId}) {
+  
     const Item = ({ children }) => (
   <Paper sx={{ padding: 1, textAlign: 'center', backgroundColor: '#202020', minHeight:'100%'}}>
     {children}
   </Paper>
 );
+const EMPTY_ARRAY = [];
+ const dispatch = useDispatch();
+  const tableImages = useSelector((state) => state.exerciseTable.tableImages[tableId] || EMPTY_ARRAY );
+  useEffect(() => {
+    if (tableImages.length === 0) {
+      dispatch(fetchTableImages(tableId));
+    }
+  }, [dispatch, tableId, tableImages.length]);
   return (
     <Box sx={{ flexGrow: 1, padding: '5px', marginBottom: '10px' }}>
   <Grid container spacing={2} columns={{ xs: 2, sm: 2, md: 12 }}>
@@ -22,7 +34,10 @@ export default function ExerciseTable({ day,  exercises}) {
         <span className='title'>{day}</span>
       </Item>
     </Grid>
-    {exercises.map((el, index) => (
+    {exercises.map((el, index) => {
+          const foundImage = tableImages.find(img => img.name === el.name);
+          console.log('foundImage', foundImage);
+          return (
     <>
       <Grid size={{ xs: 2, sm: 4, md: Grow }} style={{border:'5px solid #ffffff67', height: '100%', backgroundColor: '#202020', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
         <Item key={index} >
@@ -37,13 +52,14 @@ export default function ExerciseTable({ day,  exercises}) {
           <p><span className='title'>Equipamiento: </span>
           </p>
           <ul className='list'>
-              {el.equipment.map((equip, idx) => (
+              { el.equipment && el.equipment.map((equip, idx) => (
                 <li key={idx}>{equip}</li>
               ))}
             </ul>
-          <img 
-            className='exerciseImage'
-            src={`http://127.0.01:3000/api/file/image/exercise/${el.image}`}
+          <LazyLoadImage 
+          className='exerciseImage'
+            effect="blur"
+            src={foundImage && foundImage.image}
             alt={el.name}
             style={{ maxWidth: '100%' }}
           />
@@ -61,7 +77,7 @@ export default function ExerciseTable({ day,  exercises}) {
           {el.position}
         </AccordionDetails>
       </Accordion>
-      <Accordion style={{backgroundColor: '#0000007b', margin:'auto'}}>
+      {el.execution && <Accordion style={{backgroundColor: '#0000007b', margin:'auto'}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{color:'#f5c518'}}/>}
           aria-controls="panel1-content"
@@ -76,12 +92,12 @@ export default function ExerciseTable({ day,  exercises}) {
               ))}
           </ul>
         </AccordionDetails>
-      </Accordion>
+      </Accordion>}
       </div>
         </Item>
       </Grid>
       </>
-    ))}
+    )})}
   </Grid>
 </Box>
   );

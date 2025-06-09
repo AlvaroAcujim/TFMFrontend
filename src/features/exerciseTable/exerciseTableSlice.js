@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   exerciseTable: [],
+  tableImages: {},
   status: 'idle',
   error: null,
   editingTable: null
@@ -55,6 +56,51 @@ export const createExerciseTable = createAsyncThunk(
     }
   }
 );
+export const createAutomaticExerciseTable = createAsyncThunk(
+  'exerciseTable/createAutomaticExerciseTable',
+  async ({ type, requiredGym }, { rejectWithValue }) => {
+    try {
+      console.log("Thunk ejecutado con:", type, requiredGym);
+      const token = localStorage.getItem("token");
+
+      let endpoint;
+      if (type === 'auto') {
+        endpoint = 'http://localhost:3000/api/exerciseTable/auto';
+      } else if (type === 'autoFullBody') {
+        endpoint = 'http://localhost:3000/api/exerciseTable/autoFullBody';
+      } else {
+        throw new Error('Tipo de tabla automática no válido');
+      }
+
+      const res = await axios.post(
+        endpoint,
+        { requiredGym },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Error al crear la tabla automática');
+    }
+  }
+);
+export const fetchTableImages = createAsyncThunk(
+  'exerciseTable/fetchTableImages',
+  async (tableId, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://localhost:3000/api/exerciseTable/${tableId}/images`, 
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return { tableId, images: res.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Error al cargar imágenes');
+    }
+  }
+);
 
 const exerciseTableSlice = createSlice({
   name: 'exerciseTable',
@@ -94,6 +140,24 @@ const exerciseTableSlice = createSlice({
       })
       .addCase(createExerciseTable.rejected, (state, action) => {
         state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(createAutomaticExerciseTable.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createAutomaticExerciseTable.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.exerciseTable.push(action.payload);
+      })
+      .addCase(createAutomaticExerciseTable.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(fetchTableImages.fulfilled, (state, action) => {
+        const { tableId, images } = action.payload;
+        state.tableImages[tableId] = images;
+      })
+      .addCase(fetchTableImages.rejected, (state, action) => {
         state.error = action.payload;
       });
       
