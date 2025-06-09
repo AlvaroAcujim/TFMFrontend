@@ -41,9 +41,11 @@ const Exercises = () => {
     dispatch(setEditingTable(table));
     window.location.href = '/createExerciseTable';
   };
+
+  let style = user ? '0px' : '500px';
   return (
     <>
-    <section className='main_container'>
+    <section className='main_container' style={{marginBottom: style}}>
       {user ?  (<><article>
     <TitleGrowEffect 
      title={`Bienvenido ${user.username ? user.username : 'nuevo usuario'}`}
