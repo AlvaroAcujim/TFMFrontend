@@ -11,15 +11,24 @@ import  {fetchUserExerciseTable}  from '../features/exerciseTable/exerciseTableS
 import {deleteTable} from '../features/exerciseTable/exerciseTableSlice.js';
 import { useState } from 'react';
 import BasicAlerts from '../components/BasicAlerts.jsx';
-import { setEditingTable } from '../features/exerciseTable/exerciseTableSlice.js';
+import { useNavigate } from 'react-router-dom';
+import { setEditingTable, fetchTableImages } from '../features/exerciseTable/exerciseTableSlice.js';
 const Exercises = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user) || '';
   const tableUser = useSelector((state) => state.exerciseTable.exerciseTable);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserExerciseTable());
+    dispatch(fetchUserExerciseTable()).unwrap()
+    .then((tables) => {
+      if (tables && tables.length > 0) {
+        tables.forEach((table) => {
+          dispatch(fetchTableImages(table._id));
+        });
+      }
+    });
   }, [dispatch]);
 
   const handleDelete = (_id) => {
@@ -39,7 +48,8 @@ const Exercises = () => {
 
   const handleEdit = (table) => {
     dispatch(setEditingTable(table));
-    window.location.href = '/createExerciseTable';
+    //window.location.href = '/createExerciseTable';
+     navigate('/createExerciseTable');
   };
 
   let style = user ? '0px' : '500px';

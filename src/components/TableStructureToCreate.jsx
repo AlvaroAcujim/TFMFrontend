@@ -3,10 +3,22 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
 
-const TableStructureToCreate = ({ tableToCreate }) => {
+const TableStructureToCreate = ({ tableToCreate, setTableToCreate  }) => {
+  const handleDelete = (day, exerciseId) => {
+    // Filtra el ejercicio a eliminar
+    const updatedDayExercises = tableToCreate[day].filter(ex => ex._id !== exerciseId);
+    // Crea la nueva tabla con el día actualizado
+    const updatedTable = {
+      ...tableToCreate,
+      [day]: updatedDayExercises
+    };
+    setTableToCreate(updatedTable);
+  };
   return (
     <>
       {daysOfWeek.map(day => (
@@ -24,6 +36,14 @@ const TableStructureToCreate = ({ tableToCreate }) => {
                 {tableToCreate[day].map(exercise => (
                   <li key={exercise._id}>
                     {exercise.name} - {exercise.muscle}
+                    <IconButton
+                      onClick={() => handleDelete(day, exercise._id)}
+                      aria-label="delete"
+                      size="small"
+                      sx={{ color: '#f44336' }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
                   </li>
                 ))}
               </ul>

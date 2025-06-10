@@ -5,12 +5,12 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { useSelector, useDispatch  } from 'react-redux';
-import { fetchExercises, fetchExercisesFiltered } from '../features/exercise/exerciseSlice';
+import { fetchExercisesWithImages } from '../features/exercise/exerciseSlice';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ExerciseList from '../components/ExerciseList';
 import TableStructureToCreate from '../components/TableStructureToCreate';
-import { createExerciseTable } from '../features/exerciseTable/exerciseTableSlice';
+import { createExerciseTable, updateExerciseTable } from '../features/exerciseTable/exerciseTableSlice';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 import { useForm } from "react-hook-form";
@@ -28,7 +28,7 @@ export const CreateExerciseTable = () => {
   const requiredGym = location.state?.requiredGym ?? false;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const editingTable = useSelector((state) => state.editingTable);
+  const editingTable = useSelector((state) => state.exerciseTable.editingTable);
   const { exercises } = useSelector((state) => state.exercise);
 
   const [selectedMuscle, setSelectedMuscle] = useState('');
@@ -43,13 +43,7 @@ export const CreateExerciseTable = () => {
   const { register, handleSubmit } = useForm();
   const itemsPerPage = 10;
 
-  useEffect(() => {
-     if (requiredGym !== undefined) {
-    dispatch(fetchExercisesFiltered(requiredGym));
-  } else {
-    dispatch(fetchExercises());
-  }
-  }, [dispatch, requiredGym]);
+  
   useEffect(() => {
     if (editingTable) {
       // Transformar la tabla editada al formato de tableToCreate
@@ -59,9 +53,16 @@ export const CreateExerciseTable = () => {
         newTable[dayName] = dayObj.exercises;
       });
       setTableToCreate(newTable);
-      dispatch(clearEditingTable()); // Limpiar para evitar conflictos futuros
     }
   }, [editingTable, dispatch]);
+  
+  useEffect(() => {
+     if (requiredGym !== undefined) {
+    dispatch(fetchExercisesWithImages(requiredGym));
+  } else {
+    dispatch(fetchExercisesWithImages());
+  }
+  }, [dispatch, requiredGym]);
   
   const capitalizeFirstLetter = (str) => {
     const daysMap = {
@@ -113,16 +114,32 @@ export const CreateExerciseTable = () => {
     setCurrentPage(1);
   };
  const onSubmit = async(data) => {
-  if(!data.tableName) alert('Escriba un nombre')
-    console.log(exercisesByDay);
-   try {
-    await dispatch(createExerciseTable({ 
-      name: data.tableName,
-      exercisesByDay,
-    })).unwrap();
+  if (!data.tableName) {
+    alert('Escriba un nombre');
+    return;
+  }
+
+  const payload = {
+    name: data.tableName,
+    exercisesByDay,
+  };
+
+  try {
+    if (editingTable && editingTable._id) {
+      // EDITAR
+      await dispatch(updateExerciseTable({
+        tableId: editingTable._id,
+        name: data.tableName,                // Asegúrate de pasar esto
+        updatedExercisesByDay: exercisesByDay
+      })).unwrap();
+    } else {
+      // CREAR
+      await dispatch(createExerciseTable(payload)).unwrap();
+    }
+    dispatch(clearEditingTable()); 
     navigate('/exercises');
   } catch (error) {
-    alert('Error al crear la tabla: ' + error);
+    alert('Error al guardar la tabla: ' + error);
   }
 
 };
@@ -138,7 +155,7 @@ export const CreateExerciseTable = () => {
         <Grid size={{xs:12, md:2}} style={{backgroundColor:'#1f1f1f', minHeight:'400px'}}>
           <Item sx={{ minHeight: '100%', boxSizing: 'border-box' }}>
             <h2>Tu tabla:</h2>
-            <TableStructureToCreate tableToCreate={tableToCreate} />
+            <TableStructureToCreate tableToCreate={tableToCreate} setTableToCreate={setTableToCreate} />
             <form onSubmit={handleSubmit(onSubmit)}>
     <TextField
       label="Nombre de la tabla"
@@ -146,7 +163,7 @@ export const CreateExerciseTable = () => {
       fullWidth
       sx={{ input: { color: 'white' } }}
     />
-    <Button type="submit" style={{color: '#f5c518'}}>Guardar tabla</Button>
+    <Button type="submit" style={{color: '#f5c518'}}>{'Guardar tabla'}</Button>
   </form>
             </Item>
         </Grid>

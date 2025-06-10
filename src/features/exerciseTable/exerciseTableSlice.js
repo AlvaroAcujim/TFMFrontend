@@ -101,6 +101,24 @@ export const fetchTableImages = createAsyncThunk(
     }
   }
 );
+export const updateExerciseTable = createAsyncThunk(
+  'exerciseTable/updateExerciseTable',
+  async ({ tableId, name,  updatedExercisesByDay }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.put(
+        `http://localhost:3000/api/exerciseTable/${tableId}`,
+        { name, exercisesByDay: updatedExercisesByDay },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Error al actualizar la tabla');
+    }
+  }
+);
 
 const exerciseTableSlice = createSlice({
   name: 'exerciseTable',
@@ -112,6 +130,10 @@ const exerciseTableSlice = createSlice({
     clearEditingTable: (state) => {
       state.editingTable = null;
     },
+    addExerciseTable(state, action) {
+      state.exerciseTable.push(action.payload);
+    },
+    
   },
   extraReducers: (builder) => {
     builder
@@ -159,10 +181,24 @@ const exerciseTableSlice = createSlice({
       })
       .addCase(fetchTableImages.rejected, (state, action) => {
         state.error = action.payload;
+      })
+      .addCase(updateExerciseTable.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateExerciseTable.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        const index = state.exerciseTable.findIndex(t => t._id === action.payload._id);
+        if (index !== -1) {
+          state.exerciseTable[index] = action.payload;
+        }
+      })
+      .addCase(updateExerciseTable.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       });
       
   },
 });
 
-export const { setEditingTable, clearEditingTable } = exerciseTableSlice.actions;
+export const { setEditingTable, clearEditingTable, addExerciseTable  } = exerciseTableSlice.actions;
 export default exerciseTableSlice.reducer;

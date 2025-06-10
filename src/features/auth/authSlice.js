@@ -19,7 +19,22 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const fetchUserFromToken = createAsyncThunk(
+  'auth/fetchUserFromToken',
+  async (_, { rejectWithValue }) => {
+    const token = localStorage.getItem('token');
+    if (!token) return rejectWithValue('No token found');
 
+    try {
+      const response = await axios.get('http://localhost:3000/api/users/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { user: response.data, token };
+    } catch (error) {
+      return rejectWithValue('Invalid token or failed to fetch user', error);
+    }
+  }
+);
 const authSlice = createSlice({
   name: 'auth',
   initialState: { user: null, token: token || null, status: 'idle', error: null },
@@ -41,6 +56,19 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || action.error.message;
+      }).addCase(fetchUserFromToken.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUserFromToken.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(fetchUserFromToken.rejected, (state) => {
+        state.status = 'failed';
+        state.user = null;
+        state.token = null;
+        localStorage.removeItem('token');
       });
   },
 });
