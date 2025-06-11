@@ -126,14 +126,12 @@ export const CreateExerciseTable = () => {
 
   try {
     if (editingTable && editingTable._id) {
-      // EDITAR
       await dispatch(updateExerciseTable({
         tableId: editingTable._id,
-        name: data.tableName,                // Asegúrate de pasar esto
+        name: data.tableName,               
         updatedExercisesByDay: exercisesByDay
       })).unwrap();
     } else {
-      // CREAR
       await dispatch(createExerciseTable(payload)).unwrap();
     }
     dispatch(clearEditingTable()); 

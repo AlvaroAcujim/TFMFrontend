@@ -48,7 +48,6 @@ const Exercises = () => {
 
   const handleEdit = (table) => {
     dispatch(setEditingTable(table));
-    //window.location.href = '/createExerciseTable';
      navigate('/createExerciseTable');
   };
 

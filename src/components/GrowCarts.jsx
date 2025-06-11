@@ -6,8 +6,8 @@ import './GrowCarts.css'
 
 const GrowCarts = ({carts}) => {
   const { ref, inView } = useInView({
-    threshold: 0.1,        // Aparece cuando el 50% del componente es visible
-    triggerOnce: true      // Solo una vez
+    threshold: 0.1,       
+    triggerOnce: true      
   });
 
   const card = (key, title, delay, description, icon) => (

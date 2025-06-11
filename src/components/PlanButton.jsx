@@ -23,7 +23,6 @@ const PlanButton = () => {
       xs: '30dvh',
       md: '40dvh',
     }, 
-    //onClick={},
     width: {xs: '100%', md: '50%'},
     fontSize: '1.3rem',
     fontWeight: 900,

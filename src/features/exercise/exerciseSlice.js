@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Fetch de ejercicios
 export const fetchExercises = createAsyncThunk(
   "exercise/fetchExercises",
   async (_, { rejectWithValue }) => {
@@ -17,7 +16,6 @@ export const fetchExercises = createAsyncThunk(
   }
 );
 
-// Fetch filtrado por requiredGym
 export const fetchExercisesFiltered = createAsyncThunk(
   "exercise/fetchExercisesFiltered",
   async (requiredGym, { rejectWithValue }) => {
@@ -30,7 +28,7 @@ export const fetchExercisesFiltered = createAsyncThunk(
   }
 );
 
-// Fetch de imágenes
+
 export const fetchExerciseImages = createAsyncThunk(
   "exercise/fetchExerciseImages",
   async (_, { rejectWithValue }) => {
@@ -43,22 +41,18 @@ export const fetchExerciseImages = createAsyncThunk(
   }
 );
 
-// Fetch combinado: ejercicios + imágenes + filtrado opcional
+
 export const fetchExercisesWithImages = createAsyncThunk(
   "exercise/fetchExercisesWithImages",
   async (requiredGym = undefined, { dispatch, rejectWithValue }) => {
     try {
-      //const token = localStorage.getItem("token");
-
-      // Fetch ejercicios (filtrado si se pasa requiredGym)
+      
       const exercises = requiredGym
         ? await dispatch(fetchExercisesFiltered(requiredGym)).unwrap()
         : await dispatch(fetchExercises()).unwrap();
 
-      // Fetch imágenes
       const images = await dispatch(fetchExerciseImages()).unwrap();
-
-      // Combinar por nombre (slugify)
+      
       const merged = exercises.map(exercise => {
         const matchedImage = images.find(
           img => img.name.toLowerCase().replace(/\s/g, '-') === exercise.name.toLowerCase().replace(/\s/g, '-')
