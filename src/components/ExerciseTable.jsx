@@ -29,7 +29,7 @@ const EMPTY_ARRAY = [];
   }, [dispatch, tableId, tableImages.length]);
   
   return (
-    <Box sx={{ flexGrow: 1, padding: '5px', marginBottom: '10px' }}>
+    <Box sx={{ flexGrow: 1, padding: '5px', marginBottom: '10px', fontSize:'0.8rem' }}>
   <Grid container spacing={2} columns={{ xs: 2, sm: 2, md: 12 }}>
     <Grid size={12} style={{ border:'2px solid #ffffff67'}}>
       <Item>
@@ -47,7 +47,7 @@ const EMPTY_ARRAY = [];
         }
           return (
     <>
-      <Grid key={index} size={{ xs: 2, sm: 4, md: Grow }} style={{border:'5px solid #ffffff67', height: '100%', backgroundColor: '#202020', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
+      <Grid key={index} size={{ xs: 1, sm: 4, md: 4, lg: 2 }} style={{border:'5px solid #ffffff67', height: '100%', backgroundColor: '#202020', marginLeft:'auto', marginRight:'auto', marginTop:'20px'}}>
         <Item key={index} >
           <h1>{el.name}</h1>
           <p><span className='title'>Musculo principal: </span></p><h2>{el.muscle}</h2>
