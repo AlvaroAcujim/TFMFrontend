@@ -30,7 +30,8 @@ export const CreateExerciseTable = () => {
   const dispatch = useDispatch();
   const editingTable = useSelector((state) => state.exerciseTable.editingTable);
   const { exercises } = useSelector((state) => state.exercise);
-
+  const [searchName, setSearchName] = useState('');
+const { register: registerSearch, handleSubmit: handleSearchSubmit } = useForm();
   const [selectedMuscle, setSelectedMuscle] = useState('');
   const [tableToCreate, setTableToCreate] = useState({
     Lunes: [],
@@ -77,12 +78,17 @@ export const CreateExerciseTable = () => {
   };
 
   const filteredExercises = useMemo(() => {
-    return exercises.filter((exercise) =>
-      selectedMuscle && selectedMuscle !== 'Todos'
-        ? exercise.muscle === selectedMuscle
-        : true
-    );
-  }, [exercises, selectedMuscle]);
+    return exercises.filter((exercise) => {
+    const matchMuscle = selectedMuscle && selectedMuscle !== 'Todos'
+      ? exercise.muscle === selectedMuscle
+      : true;
+    const matchName = searchName
+      ? exercise.name.toLowerCase().includes(searchName.toLowerCase())
+      : true;
+
+    return matchMuscle && matchName;
+     });
+  }, [exercises, selectedMuscle, searchName]);
 
    const exercisesByDay = useMemo(() => {
     return Object.entries(tableToCreate).map(([day, exercises]) => ({
@@ -113,6 +119,10 @@ export const CreateExerciseTable = () => {
     setSelectedMuscle(e.target.value);
     setCurrentPage(1);
   };
+  const handleSearchByName = (data) => {
+  setSearchName(data.exerciseName);
+  setCurrentPage(1); // Resetear la paginación al buscar
+};
  const onSubmit = async(data) => {
   if (!data.tableName) {
     alert('Escriba un nombre');
@@ -200,6 +210,29 @@ export const CreateExerciseTable = () => {
           <MenuItem sx={{backgroundColor:"black"}} value="Hombros">Hombros</MenuItem>
           <MenuItem sx={{backgroundColor:"black"}} value="Gemelos">Gemelos</MenuItem>
         </Select>
+            </Item>
+            <Item>
+              <label htmlFor="muscle-select">Filtrar Nombre:</label>
+              <form onSubmit={handleSearchSubmit(handleSearchByName)} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '8px' }}>
+    <TextField
+      id="exercise-search"
+      label="Nombre del ejercicio"
+      {...registerSearch("exerciseName")}
+      fullWidth
+      inputProps={{
+    list: 'exercise-names',
+    style: { textAlign: 'center', color: 'white' }
+  }}
+      sx={{ input: { color: 'white', textAlign: 'center' } }}
+    />
+    <datalist id="exercise-names">
+      {
+      exercises.map((exercise) => (
+        <option key={exercise._id} value={exercise.name} />
+      ))}
+    </datalist>
+    <Button type="submit" style={{ color: '#f5c518' }}>Buscar</Button>
+  </form>
             </Item>
              <ExerciseList exercises={paginatedExercises} tableToCreate={tableToCreate} setTableToCreate={setTableToCreate}/>
                     <Item sx={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -13,16 +13,24 @@ import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 import CachedIcon from '@mui/icons-material/Cached';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 import { createAutomaticExerciseTable } from '../features/exerciseTable/exerciseTableSlice'; // ajusta la ruta si es distinta
 export default function DialogExercise({open, handleClose, requiredGym}) {
   const dispatch = useDispatch();
-
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const handleCreateTable = (type) => async () => {
+     setIsLoading(true);
   try {
     await dispatch(createAutomaticExerciseTable({ type, requiredGym }));
     handleClose();
   } catch (error) {
     console.error("Error creando tabla automática:", error);
+  }finally {
+    setIsLoading(false);
+    navigate('/exercises');
+    navigate(0);
   }
 };
   
@@ -41,7 +49,11 @@ export default function DialogExercise({open, handleClose, requiredGym}) {
       <DialogContent sx={{ backgroundColor: '#000000' }}>
         <DialogContentText sx={{ color: 'white' }}>
 
-            <Stack spacing={2} component={"section"} direction={{ xs: 'column', md: 'column' } }>
+           {isLoading ? (
+  <Stack justifyContent="center" alignItems="center" sx={{ py: 5 }}>
+    <CircularProgress size={80} thickness={5} sx={{ color: '#f5c518' }} />
+  </Stack>
+) : (<Stack spacing={2} component={"section"} direction={{ xs: 'column', md: 'column' } }>
       <Button variant="contained" size='large'
       sx={{
         height: {
@@ -98,7 +110,7 @@ export default function DialogExercise({open, handleClose, requiredGym}) {
   }
     
       }}><CachedIcon sx={{ fontSize: 80, color: '#d2a119' }}/>Selección automática. <br></br>grupo muscular por día (avanzado) </Button>
-    </Stack>
+    </Stack>)}
         </DialogContentText>
 
       </DialogContent>
