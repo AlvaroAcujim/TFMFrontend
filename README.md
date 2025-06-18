@@ -1,12 +1,51 @@
-# React + Vite
+# 🏋️‍♂️ GymPlanner - App MERN de Tablas de Ejercicio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**GymPlanner** es una aplicación web desarrollada con el stack MERN (MongoDB, Express.js, React, Node.js) que permite a los usuarios registrarse, iniciar sesión y crear tablas personalizadas de ejercicios de gimnasio. Los usuarios pueden construir sus rutinas de forma **manual** o con **asistencia de inteligencia artificial**, organizando los ejercicios por días de la semana.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características principales
 
-## Expanding the ESLint configuration
+- 🔐 **Autenticación de usuarios**
+  - Registro y login con JWT.
+  - Roles de usuario para controlar accesos (usuario/admin).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🧠 **Generación de tablas con IA**
+  - Opción de creación automática de rutinas usando IA según nivel y objetivo.
+
+- 🧱 **Creación manual de rutinas**
+  - Selección de ejercicios por músculo, dificultad y objetivo.
+  - Organización de ejercicios por días de lunes a viernes.
+
+- ✏️ **Gestión de tablas**
+  - Edición y eliminación de ejercicios dentro de la tabla.
+  - Añadir nuevos ejercicios a cualquier día.
+
+- 📅 **Interfaz intuitiva**
+  - Selección clara de días y ejercicios.
+
+---
+
+## 🧩 Tecnologías utilizadas
+
+### 📦 Backend
+- **Node.js** con **Express.js**
+- **MongoDB** con **Mongoose**
+- **JWT** para autenticación
+- **multer** 
+- Arquitectura modular: `models`, `controllers`, `routes`, `services`
+
+### 💻 Frontend
+- **React**
+- **React Router**
+- **React Navigation**
+- **Yup**
+- **reduxjs toolkit**
+- **React-redux**
+- **React Hook Form** para formularios
+- **CSS y libreria de componentes MUI**
+- Comunicación con backend vía `axios`
+
+---
+
+## 📁 Estructura del proyecto
