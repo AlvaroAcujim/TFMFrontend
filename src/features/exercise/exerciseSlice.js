@@ -6,7 +6,7 @@ export const fetchExercises = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/api/exercise", {
+      const response = await axios.get("https://tfmbackend-mr4r.onrender.com/api/exercise", {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -20,7 +20,7 @@ export const fetchExercisesFiltered = createAsyncThunk(
   "exercise/fetchExercisesFiltered",
   async (requiredGym, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/exercise/gymRequirement/${requiredGym}`);
+      const response = await axios.get(`https://tfmbackend-mr4r.onrender.com/api/exercise/gymRequirement/${requiredGym}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error al obtener ejercicios filtrados.");
@@ -33,7 +33,7 @@ export const fetchExerciseImages = createAsyncThunk(
   "exercise/fetchExerciseImages",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3000/api/exercise/exerciseImages");
+      const response = await axios.get("https://tfmbackend-mr4r.onrender.com/api/exercise/exerciseImages");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Error al obtener imágenes.");

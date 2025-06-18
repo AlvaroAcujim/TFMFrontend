@@ -8,9 +8,9 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (credentials, { rejectWithValue }) => {
     try {
-      const { data: token } = await axios.post('http://localhost:3000/api/users/login', credentials);
+      const { data: token } = await axios.post('https://tfmbackend-mr4r.onrender.com/api/users/login', credentials);
       localStorage.setItem('token', token);
-      const userRes = await axios.get(`http://localhost:3000/api/users/login/${credentials.identifier}`, {
+      const userRes = await axios.get(`https://tfmbackend-mr4r.onrender.com/api/users/login/${credentials.identifier}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return { token, user: userRes.data };
@@ -26,7 +26,7 @@ export const fetchUserFromToken = createAsyncThunk(
     if (!token) return rejectWithValue('No token found');
 
     try {
-      const response = await axios.get('http://localhost:3000/api/users/me', {
+      const response = await axios.get('https://tfmbackend-mr4r.onrender.com/api/users/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
       return { user: response.data, token };

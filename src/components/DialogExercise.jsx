@@ -91,7 +91,9 @@ export default function DialogExercise({open, handleClose, requiredGym}) {
     borderColor: '#f5c518',
   }
     
-      }}><CachedIcon sx={{ fontSize: 80, color: '#d2a119' }}/>Selección automática. <br></br>fullBody (principiante)</Button>
+      }}>
+        
+        <CachedIcon sx={{ fontSize: 80, color: '#d2a119' }}/>Selección automática. <br></br>fullBody (principiante)</Button>
     <Button variant="contained" size='large' 
     onClick={handleCreateTable('auto')} 
       sx={{

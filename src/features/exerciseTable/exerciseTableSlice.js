@@ -14,7 +14,7 @@ export const fetchUserExerciseTable = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token")
-      const res = await axios.get('http://localhost:3000/api/exerciseTable/user', {
+      const res = await axios.get('https://tfmbackend-mr4r.onrender.com/api/exerciseTable/user', {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;
@@ -29,7 +29,7 @@ export const deleteTable = createAsyncThunk(
   async (tableId, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token")
-      await axios.delete(`http://localhost:3000/api/exerciseTable/${tableId}`, {
+      await axios.delete(`https://tfmbackend-mr4r.onrender.com/api/exerciseTable/${tableId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return tableId;
@@ -44,7 +44,7 @@ export const createExerciseTable = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        'http://localhost:3000/api/exerciseTable',
+        'https://tfmbackend-mr4r.onrender.com/api/exerciseTable',
         { name, exercisesByDay },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -65,9 +65,9 @@ export const createAutomaticExerciseTable = createAsyncThunk(
 
       let endpoint;
       if (type === 'auto') {
-        endpoint = 'http://localhost:3000/api/exerciseTable/auto';
+        endpoint = 'https://tfmbackend-mr4r.onrender.com/api/exerciseTable/auto';
       } else if (type === 'autoFullBody') {
-        endpoint = 'http://localhost:3000/api/exerciseTable/autoFullBody';
+        endpoint = 'https://tfmbackend-mr4r.onrender.com/api/exerciseTable/autoFullBody';
       } else {
         throw new Error('Tipo de tabla automática no válido');
       }
@@ -92,7 +92,7 @@ export const fetchTableImages = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://localhost:3000/api/exerciseTable/${tableId}/images`, 
+        `https://tfmbackend-mr4r.onrender.com/api/exerciseTable/${tableId}/images`, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return { tableId, images: res.data };
@@ -107,7 +107,7 @@ export const updateExerciseTable = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        `http://localhost:3000/api/exerciseTable/${tableId}`,
+        `https://tfmbackend-mr4r.onrender.com/api/exerciseTable/${tableId}`,
         { name, exercisesByDay: updatedExercisesByDay },
         {
           headers: { Authorization: `Bearer ${token}` },
