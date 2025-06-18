@@ -47,7 +47,7 @@ const ExerciseList = (({ exercises, tableToCreate, setTableToCreate }) => {
           <LazyLoadImage
             className='exerciseImage'
             effect="blur"
-            src={`http://127.0.0.1:3000/api/file/image/exercise/${exercise.image}`}
+            src={`https://tfmbackend-mr4r.onrender.com/api/file/image/exercise/${exercise.image}`}
             alt={exercise.name}
             style={{ maxWidth: '100%' }}
           />
