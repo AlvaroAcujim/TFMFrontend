@@ -45,7 +45,3 @@
 - **React Hook Form** para formularios
 - **CSS y libreria de componentes MUI**
 - Comunicación con backend vía `axios`
-
----
-
-## 📁 Estructura del proyecto
