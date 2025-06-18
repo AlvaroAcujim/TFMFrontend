@@ -12,6 +12,5 @@ const schema = yup.object().shape({
       'Debe contener mínimo, 6 caracteres, una mayúscula y un numero',
     )
   .required('La contraseña es obligatoria'),
-  // role es fijo 'user' oculto en el formulario
 });
 export default schema;

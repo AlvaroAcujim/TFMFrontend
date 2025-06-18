@@ -10,9 +10,7 @@ const daysOfWeek = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
 
 const TableStructureToCreate = ({ tableToCreate, setTableToCreate  }) => {
   const handleDelete = (day, exerciseId) => {
-    // Filtra el ejercicio a eliminar
     const updatedDayExercises = tableToCreate[day].filter(ex => ex._id !== exerciseId);
-    // Crea la nueva tabla con el día actualizado
     const updatedTable = {
       ...tableToCreate,
       [day]: updatedDayExercises
