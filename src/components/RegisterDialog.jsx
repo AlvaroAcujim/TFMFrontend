@@ -50,7 +50,7 @@ export default function FormDialog({open, handleClose}) {
     } catch (err) {
       setError('Error al registrar usuario.');
       setLoading(false);
-      console.log(err)
+      console.log(err.response.errors[0].msg)
     }
   };
 
