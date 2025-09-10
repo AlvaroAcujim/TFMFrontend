@@ -39,7 +39,7 @@ export default function FormDialog({open, handleClose}) {
     setError(null);
     setSuccess(null);
     try {
-      await axios.post('http://localhost:3000/api/users/', data);
+      await axios.post('https://tfmbackend-mr4r.onrender.com/api/users/', data);
       setSuccess('¡Cuenta creada con éxito!');
       reset();
       setTimeout(() => {
