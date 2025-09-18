@@ -1,6 +1,7 @@
 import React from 'react'
 import GrowCarts from '../components/GrowCarts';
 import './home.css';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
