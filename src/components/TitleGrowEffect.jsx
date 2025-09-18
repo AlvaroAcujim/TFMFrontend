@@ -3,6 +3,7 @@ import './TitleGrowEffect.css'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 const TitleGrowEffect = ({title, height, marginBotMD, marginBotxs, marginBotSM, marginBotLG, marginBotXL, fontSize, icon}) => {
+  const finalTitle = title.split("\n")
   return (
     <Box className='main__title' 
     component={"article"}
@@ -34,7 +35,11 @@ const TitleGrowEffect = ({title, height, marginBotMD, marginBotxs, marginBotSM, 
           
         }}
       >
-        {title}
+        {finalTitle.map((el, index) => (
+          <fragment key={index}>
+          {el}
+          </fragment>
+        ))}
         {icon}
       </Typography>
     </Box>
