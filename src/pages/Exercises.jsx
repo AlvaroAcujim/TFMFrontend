@@ -104,7 +104,7 @@ const Exercises = () => {
   </div>
 ))}
       </article>
-  <BasicAlerts text={'¡Tabla eliminada con éxito!'} show={success}/></>): <h3 style={{color: '#ff0000', fontSize: '2rem', backgroundColor: '#000000' , textAlign: 'center'}}>Para utilizar las funcionalidad de la página es necesario crearse una cuenta</h3>}
+  <BasicAlerts text={'¡Tabla eliminada con éxito!'} show={success}/></>): <TitleGrowEffect title={"¿ES SU PRIMERA VEZ?\n CREASE UNA CUENTA EN LA PARTE SUPERIOR DE LA PÁGINA,\n PUEDE CREARLA PULSANDO EL SIGUIENTE ICONO: "} height={'20vh'}  marginBotMD={'0px'} marginBotxs={'0px'} marginBotSM={'0px'} marginBotLG={'0px'} fontSize={'2rem'} icon={<PersonIcon sx={{ fontSize: 40, color: '#d2a119' }}/>} />}
     
     </section>
     </>
