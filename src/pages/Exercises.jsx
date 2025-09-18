@@ -13,6 +13,7 @@ import { useState } from 'react';
 import BasicAlerts from '../components/BasicAlerts.jsx';
 import { useNavigate } from 'react-router-dom';
 import { setEditingTable, fetchTableImages } from '../features/exerciseTable/exerciseTableSlice.js';
+import PersonIcon from '@mui/icons-material/Person';
 const Exercises = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -65,7 +66,7 @@ const Exercises = () => {
             marginBotLG={"-40px"}
             marginBotXL={"-40px"}
             fontSize={"3rem"}/>
-    {user ? <h3>En este apartado tienes diversas elecciones para establecer tu rútina de ejercicios.</h3> : <h3 style={{color: '#ff0000', fontSize: '2rem', backgroundColor: '#000000'}}>Para utilizar las funcionalidad de la página es necesario crearse una cuenta</h3>}
+    {user ? <h3>En este apartado tienes diversas elecciones para establecer tu rútina de ejercicios.</h3> : <TitleGrowEffect title={"¿ES SU PRIMERA VEZ?\n CREASE UNA CUENTA EN LA PARTE SUPERIOR DE LA PÁGINA,\n PUEDE CREARLA PULSANDO EL SIGUIENTE ICONO: "} height={'20vh'}  marginBotMD={'0px'} marginBotxs={'0px'} marginBotSM={'0px'} marginBotLG={'0px'} fontSize={'2rem'} icon={<PersonIcon sx={{ fontSize: 40, color: '#d2a119' }}/>} />}
     <h3>Porfavor seleccione una de las dos opciones:</h3>
     </article>
     <article className='' style={{marginBottom:'30px'}}>
