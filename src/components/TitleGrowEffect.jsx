@@ -37,7 +37,7 @@ const TitleGrowEffect = ({title, height, marginBotMD, marginBotxs, marginBotSM, 
       >
         {finalTitle.map((el, index) => (
           <fragment key={index}>
-          {el}
+          {el}<br></br>
           </fragment>
         ))}
         {icon}
