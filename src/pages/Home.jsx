@@ -37,7 +37,7 @@ const Home = () => {
         }
       ]}/>
       {user && <TitleGrowEffect title={"SELECCIONE SU PLAN"} height={'20vh'}  marginBotMD={'0px'} marginBotxs={'0px'} marginBotSM={'0px'} marginBotLG={'0px'} fontSize={'2rem'}/>}
-      {user ? <PlanButton/> : <TitleGrowEffect title={"¿ES SU PRIMERA VEZ? CREASE UNA CUENTA EN LA PARTE SUPERIOR DE LA PÁGINA Y UTILICE NUESTRA FUNCIONALIDAD PRINCIPAL CON EL ICONO: "} height={'20vh'}  marginBotMD={'0px'} marginBotxs={'0px'} marginBotSM={'0px'} marginBotLG={'0px'} fontSize={'2rem'} icon={<FitnessCenterIcon sx={{ fontSize: 40, color: '#d2a119' }}/>}/>}
+      {user ? <PlanButton/> : <TitleGrowEffect title={"¿ES SU PRIMERA VEZ?\n CREASE UNA CUENTA EN LA PARTE SUPERIOR DE LA PÁGINA,\n UTILICE NUESTRA FUNCIONALIDAD PRINCIPAL CON EL ICONO: "} height={'20vh'}  marginBotMD={'0px'} marginBotxs={'0px'} marginBotSM={'0px'} marginBotLG={'0px'} fontSize={'2rem'} icon={<FitnessCenterIcon sx={{ fontSize: 40, color: '#d2a119' }}/>}/>}
       
     </section>
   )
