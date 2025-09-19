@@ -67,8 +67,11 @@ export default function FormDialog({open, handleClose}) {
       sx={{ backgroundColor: '#00000088' }}
       PaperProps={{
         component: 'form',
-        onSubmit: handleSubmit(onSubmit),
-        sx: { backgroundColor: '#000', textAlign: 'center' }
+         onSubmit: (e) => {
+          e.preventDefault(); 
+          e.stopPropagation();
+          handleSubmit(onSubmit)(e)},
+        sx: { backgroundColor: '#000', textAlign: 'center', border: '2px solid white', borderRadius: '4%' }
       }}
     >
       <DialogTitle sx={{ backgroundColor: '#000000', color: 'white' }}>
